@@ -4,9 +4,16 @@ use newtonraphson
 implicit none
 
 character(len=5) :: arg
+integer :: nargs
 real :: input, result
 
 ! read the input argument and convert to real
+nargs = command_argument_count()
+if (nargs.ne.1) then
+  print *, "Usage: sqrt N where N is a real number"
+  stop 1
+endif
+
 call getarg(1, arg)
 read(arg,*) input
 
@@ -14,6 +21,6 @@ read(arg,*) input
 result = nr_sqrt(input, 10.0, 20, .FALSE.)
 
 ! print results
-print *, "The square root of ",input," is ", result
+print "(3A,F10.4)", "The square root of ",trim(arg)," is ",result
 
 end program
