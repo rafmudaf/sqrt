@@ -1,7 +1,7 @@
 module newtonraphson
 implicit none
 
-private
+private :: isEven, isInteger
 public :: nr_sqrt, int_2x, int_sq
 
 contains
