@@ -21,7 +21,7 @@ target_link_libraries(sqrt newtonraphson)
 # configure the test compile
 set(pfunit_directory ${PFUNIT_INSTALL})
 set(source_testdirectory ${PROJECT_SOURCE_DIR}/tests)
-set(build_testdirectory ${PROJECT_BINARY_DIR}/pfunit)
+set(build_testdirectory ${PROJECT_BINARY_DIR}/tests)
 
 file(MAKE_DIRECTORY ${build_testdirectory})
 file(WRITE ${build_testdirectory}/testSuites.inc "")
@@ -32,6 +32,7 @@ include_directories(
   ${pfunit_directory}/mod
 )
 
+# unit tests
 set(test_sources)
 foreach(test test_int_2x test_int_sq test_nr_sqrt)
   set(test_dependency ${source_testdirectory}/${test}.F90)
