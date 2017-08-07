@@ -5,7 +5,7 @@ implicit none
 
 character(len=5) :: arg
 integer :: nargs
-real :: input, result
+real :: input, result, randomn
 
 ! read the input argument and convert to real
 nargs = command_argument_count()
@@ -22,5 +22,7 @@ result = nr_sqrt(input, 10.0, 20, .FALSE.)
 
 ! print results
 print "(3A,F10.4)", "The square root of ",trim(arg)," is ",result
+
+randomn = randn()
 
 end program

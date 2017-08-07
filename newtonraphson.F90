@@ -6,6 +6,23 @@ public :: nr_sqrt, int_2x, int_sq
 
 contains
 
+real function randn()
+  integer :: n
+  integer, allocatable :: seed(:)
+  real :: r
+  
+  ! call random_seed(size = seedsize)
+  call random_seed(size = n)
+  write (*,*) n
+  allocate(seed(n))
+  call random_seed(get=seed)
+  write (*, *) seed
+
+  call random_number(r)
+  print (*,*) r
+  randn = r
+end function
+  
 real function nr_sqrt(n, x0, iterations, printIts)
   real, intent(in) :: n, x0
   integer, intent(in) :: iterations
