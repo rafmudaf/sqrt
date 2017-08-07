@@ -19,7 +19,7 @@ real function randn()
   write (*, *) seed
 
   call random_number(r)
-  print (*,*) r
+  write (*,*) r
   randn = r
 end function
   
