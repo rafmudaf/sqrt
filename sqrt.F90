@@ -7,6 +7,8 @@ character(len=5) :: arg
 integer :: nargs
 real :: input, result, randomn
 
+write(*,*) cmake_flag
+
 ! read the input argument and convert to real
 nargs = command_argument_count()
 if (nargs.ne.1) then
