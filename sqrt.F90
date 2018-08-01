@@ -7,7 +7,9 @@ character(len=5) :: arg
 integer :: nargs
 real :: input, result, randomn
 
-write(*,*) cmake_flag
+#if (defined(cmake_flag))
+  write(*,*) "cmake_flag", cmake_flag
+#endif
 
 ! read the input argument and convert to real
 nargs = command_argument_count()
