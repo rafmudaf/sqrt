@@ -1,20 +1,21 @@
 
+language: c
+
 os: osx
 
 before_install:
-    # first uninstall a conflicting package
-    - brew cask uninstall oclint
-
     # update and install required packages
     - brew update
-    - brew install gcc
+    - brew install gcc@7
+    - brew upgrade python
     # - brew install cmake # cmake is already installed in the default mac image
 
 before_script:
     - mkdir build
     - cd build
     - cmake ..
-  
+    - make
+
 script:
-    - make 
-    # Run your build commands next
+    # unit tests
+    - ctest -VV -R newtonraphson_utest
