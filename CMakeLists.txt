@@ -18,7 +18,23 @@ set(SOURCES ${CMAKE_CURRENT_LIST_DIR}/sqrt.F90)
 add_executable(sqrt ${SOURCES})
 target_link_libraries(sqrt newtonraphson)
 
-# configure the test compile
+# configure the testing framework, pFUnit
+include(ExternalProject)
+set(ExternalProjectCMakeArgs
+  -DCMAKE_INSTALL_PREFIX=${PROJECT_BINARY_DIR}/pfunit
+  -DROBUST=OFF
+)
+set(PFUNIT_INSTALL ${PROJECT_BINARY_DIR}/pfunit)
+ExternalProject_Add(pfunit
+  SOURCE_DIR ${PROJECT_SOURCE_DIR}/pfunit
+  BINARY_DIR ${PROJECT_BINARY_DIR}/pfunit-build
+  STAMP_DIR ${PROJECT_BINARY_DIR}/pfunit-stamp
+  TMP_DIR ${PROJECT_BINARY_DIR}/pfunit-tmp
+  INSTALL_DIR ${PFUNIT_INSTALL}
+  CMAKE_ARGS ${ExternalProjectCMakeArgs}
+)
+
+set(PFUNIT_INSTALL ${PROJECT_BINARY_DIR}/pFUnit)
 set(pfunit_directory ${PFUNIT_INSTALL})
 set(source_testdirectory ${PROJECT_SOURCE_DIR}/tests)
 set(build_testdirectory ${PROJECT_BINARY_DIR}/tests)
@@ -53,7 +69,6 @@ add_executable(
   ${pfunit_directory}/include/driver.F90
   ${test_sources}
 )
-
 target_link_libraries(
   newtonraphson_utest
   ${pfunit_directory}/lib/libpfunit.a
