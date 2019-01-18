@@ -1,5 +1,5 @@
 
-This file is in ~/.github/
+This file is in ~/.github/PULL_REQUEST_TEMPLATE
 
 Complete this sentence
 **THIS PULL REQUEST __[IS/IS NOT]__ READY TO MERGE**
