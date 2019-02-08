@@ -1,15 +1,18 @@
 program sqrt
 
 use newtonraphson
+use, intrinsic :: iso_c_binding
 implicit none
 
 character(len=5) :: arg
 integer :: nargs
-real :: input, result, randomn
 
-#if (defined(cmake_flag))
-  write(*,*) "cmake_flag", cmake_flag
-#endif
+! arguments for the fortran routines
+real :: input
+real :: x0 = 10
+integer :: iterations = 10
+logical(1) :: printIts = .TRUE.
+real :: result
 
 ! read the input argument and convert to real
 nargs = command_argument_count()
@@ -22,11 +25,9 @@ call getarg(1, arg)
 read(arg,*) input
 
 ! get the square root from newton raphson method
-result = nr_sqrt(input, 10.0, 20, .FALSE.)
+result = nr_sqrt(input, x0, iterations, printIts)
 
-! print results
+! display the results
 print "(3A,F10.4)", "The square root of ",trim(arg)," is ",result
-
-randomn = randn()
 
 end program
