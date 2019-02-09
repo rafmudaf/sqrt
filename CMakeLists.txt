@@ -23,7 +23,7 @@ target_link_libraries(sqrt_fortran newtonraphson_fortran)
 add_executable(sqrt_c ${CMAKE_CURRENT_LIST_DIR}/sqrt.c)
 target_link_libraries(sqrt_c newtonraphson_c)
 
-add_executable(sqrt_c_fortran ${CMAKE_CURRENT_LIST_DIR}/sqrt.c)
+add_executable(sqrt_c_fortran ${CMAKE_CURRENT_LIST_DIR}/sqrt_f90.c)
 target_link_libraries(sqrt_c_fortran newtonraphson_fortran)
 
 add_executable(sqrt_fortran_c ${CMAKE_CURRENT_LIST_DIR}/sqrt_c.F90)
