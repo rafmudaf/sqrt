@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdbool.h>
+#include <string.h>
 
 // enabling C99 gives us modern functionality like efficient float to int cast
 #define _ISOC9X_SOURCE 1
@@ -13,6 +14,12 @@ int initializer()
   fp = fopen("newtonraphson.log", "w");
   fprintf(fp, "Testing...\n");
   return 1;
+}
+
+int passarrays(double in[4], double out[4])
+{
+  memcpy(out, in, 4 * sizeof(double));
+  return 0;
 }
 
 bool isEven(int n)

@@ -7,18 +7,22 @@ character(len=5) :: arg
 integer :: nargs
 
 interface
-    function initializer () bind ( c )
+    integer ( c_int ) function passarrays (in, out) bind ( c )
       use iso_c_binding
-      integer ( c_int ) :: initializer
+      implicit none
+      real ( c_double ), intent(in) :: in(4)
+      real ( c_double ), intent(out) :: out(4)
     end function
-    function nr_sqrt ( input, x0, iterations, printIts ) bind ( c )
+    integer ( c_int ) function initializer () bind ( c )
+      use iso_c_binding
+    end function
+    real ( c_double ) function nr_sqrt ( input, x0, iterations, printIts ) bind ( c )
       use iso_c_binding
       real ( c_double ) :: input
       real ( c_double ) :: x0
       integer ( c_int ) :: iterations
       logical ( c_bool ) :: printIts
-      real ( c_double ) :: nr_sqrt
-    end function nr_sqrt
+    end function
 end interface
 
 ! arguments for the c routines
@@ -28,6 +32,14 @@ real ( c_double ) :: x0 = 10
 integer ( c_int ) :: iterations = 10
 logical ( c_bool ) :: printIts = .FALSE.
 real ( c_double ) :: result
+integer ( c_int ) :: result_int
+real(C_DOUBLE), dimension(0:3) :: in, out
+
+! passing arrays to c and back
+in = (/1,2,3,4/)
+print *, "uninitialized out: ", out
+result_int = passarrays(in, out)
+print *, "after c out: ", out
 
 ! initialize the c routines
 errstat = initializer()
