@@ -55,13 +55,13 @@ real( c_float ) function nr_sqrt(n, x0, iterations, printIts) bind(c)
   return
 end function
 
-integer(c_int) function int_2x(n) bind(c)
-  integer(c_int), intent(in) :: n
+integer(c_int) function int_2x(n) bind(c, name='int_2x')
+  integer(c_int), value, intent(in) :: n
   int_2x = ishft(n, 1)
 end function
 
-recursive integer function int_sq(n) result(sq)
-  integer, intent(in) :: n
+recursive integer(c_int) function int_sq(n) bind(c, name='int_sq') result(sq)
+  integer(c_int), value, intent(in) :: n
   integer :: x
 
   if (n.eq.0) then
