@@ -6,11 +6,11 @@
 
 int main(int argc, char *argv[])
 {
-    float input;
-    float x0 = 10;
+    double input;
+    double x0 = 10;
     int iterations = 10;
     bool printIts = true;
-    float result = -1.0;
+    double result = -1.0;
 
     if (argc != 2)
     {

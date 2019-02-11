@@ -1,2 +1,2 @@
 
-extern float nr_sqrt(float *, float *, int *, bool *);
+extern double nr_sqrt(double *, double *, int *, bool *);

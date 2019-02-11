@@ -11,7 +11,7 @@ int main(int argc, char *argv[])
     double x0 = 10;
     int iterations = 10;
     bool printIts = true;
-    float result = -1.0;
+    double result = -1.0;
 
     if (argc != 2)
     {
