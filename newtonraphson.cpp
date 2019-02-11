@@ -1,11 +1,11 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <string.h>
+#include <math.h>
 
 // enabling C99 gives us modern functionality like efficient float to int cast
 #define _ISOC9X_SOURCE 1
 #define _ISOC99_SOURCE 1
-#include <math.h>
 
 int initializer()
 {
