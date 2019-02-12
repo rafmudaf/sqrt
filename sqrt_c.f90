@@ -10,8 +10,8 @@ interface
     integer(c_int) function passarrays (in, out) bind (c)
       use iso_c_binding
       implicit none
-      real (c_double), intent(in) :: in(4)
-      real (c_double), intent(out) :: out(4)
+      real(c_double), intent(in) :: in(4)
+      real(c_double), intent(out) :: out(4)
     end function
     function initializer () bind (c)
       use iso_c_binding

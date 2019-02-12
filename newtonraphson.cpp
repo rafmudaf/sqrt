@@ -16,6 +16,7 @@ extern "C"
 {
   int initializer();
   double nr_sqrt(double n, double x0, int iterations, bool printIts);
+  int passarrays(double in[4], double out[4]);
 };
 
 int initializer()
