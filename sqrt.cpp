@@ -28,7 +28,7 @@ int main(int argc, char *argv[])
     }
 
     // get the square root from newton raphson method
-    result = nr_sqrt(&input, &x0, &iterations, &printIts);
+    result = nr_sqrt(input, x0, iterations, printIts);
 
     // print results
     printf("The square root of %f is %f\n", input, result);

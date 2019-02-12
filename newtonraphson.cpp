@@ -69,25 +69,25 @@ bool isInteger(double n)
   return fmod(n, 1.0) == 0;
 }
 
-double nr_sqrt(double *n, double *x0, int *iterations, bool *printIts)
+double nr_sqrt(double n, double x0, int iterations, bool printIts)
 {
   double xm1, root;
 
-  for (int i = 0; i < *iterations; ++i)
+  for (int i = 0; i < iterations; ++i)
   {
     if (i == 0)
     {
-      xm1 = *x0;
+      xm1 = x0;
     }
 
     // if integer, use integer algorithm
     if (isInteger(xm1))
     {
-      root = xm1 - (int_sq(lrint(xm1)) - *n) / (int_2x(lrint(xm1)));
+      root = xm1 - (int_sq(lrint(xm1)) - n) / (int_2x(lrint(xm1)));
     }
     else
     {
-      root = xm1 - (pow(xm1, 2) - *n) / (2 * xm1);
+      root = xm1 - (pow(xm1, 2) - n) / (2 * xm1);
     }
 
     if (printIts)

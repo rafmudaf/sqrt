@@ -19,10 +19,10 @@ interface
     end function
     function nr_sqrt ( input, x0, iterations, printIts ) bind (c)
       use iso_c_binding
-      real(c_double) :: input
-      real(c_double) :: x0
-      integer(c_int) :: iterations
-      logical(c_bool) :: printIts
+      real(c_double), value :: input
+      real(c_double), value :: x0
+      integer(c_int), value :: iterations
+      logical(c_bool), value :: printIts
       real(c_double) :: nr_sqrt
     end function nr_sqrt
 end interface
@@ -32,7 +32,7 @@ integer(c_int) :: errstat
 real(c_double) :: input
 real(c_double) :: x0 = 10
 integer(c_int) :: iterations = 10
-logical(c_bool) :: printIts = .FALSE.
+logical(c_bool) :: printIts = .TRUE.
 real(c_double) :: result
 integer ( c_int ) :: result_int
 real(C_DOUBLE), dimension(0:3) :: in, out

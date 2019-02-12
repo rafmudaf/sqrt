@@ -25,8 +25,8 @@ real(c_double) function randn()
   write (*,*) r
   randn = r
 end function
-  
-real(c_double) function nr_sqrt(n, x0, iterations, printIts) bind(c)
+
+real(c_double) function nr_sqrt(n, x0, iterations, printIts) bind(c, name='nr_sqrt')
   real(c_double), intent(in) :: n, x0
   integer(c_int), intent(in) :: iterations
   logical(c_bool), intent(in) :: printIts
