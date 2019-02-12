@@ -3,7 +3,11 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <math.h>
-#include "newtonraphson.h"
+
+extern "C"
+{
+    double nr_sqrt(double n, double x0, int iterations, bool printIts);
+};
 
 int main(int argc, char *argv[])
 {

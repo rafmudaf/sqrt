@@ -2,7 +2,11 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
-#include "sqrt.h"
+
+extern "C"
+{
+    double nr_sqrt(double *, double *, int *, bool *);
+}
 
 int main(int argc, char *argv[])
 {

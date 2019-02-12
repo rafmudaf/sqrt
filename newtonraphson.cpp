@@ -7,6 +7,17 @@
 #define _ISOC9X_SOURCE 1
 #define _ISOC99_SOURCE 1
 
+bool isEven(int n);
+int int_sq(int n);
+int int_2x(int n);
+bool isInteger(double n);
+
+extern "C"
+{
+  int initializer();
+  double nr_sqrt(double n, double x0, int iterations, bool printIts);
+};
+
 int initializer()
 {
   // open a file for logging
