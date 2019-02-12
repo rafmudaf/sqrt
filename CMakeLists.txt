@@ -6,7 +6,8 @@ if(CMAKE_SYSTEM_NAME MATCHES Darwin)
 endif()
 
 if(CMAKE_Fortran_COMPILER_ID MATCHES GNU)
-  set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -g -fprofile-arcs -ftest-coverage")
+  set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -g")
+  # set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -fprofile-arcs -ftest-coverage")
 endif()
 
 # demonstrate passing a compiler directive; used in sqrt.f90
