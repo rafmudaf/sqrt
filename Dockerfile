@@ -13,5 +13,4 @@ RUN mkdir rafmudaf/sqrt/build
 WORKDIR /rafmudaf/sqrt/build
 RUN cmake ..
 RUN make
-
-CMD ["pytest"]
+WORKDIR /rafmudaf/sqrt
