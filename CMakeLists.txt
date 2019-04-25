@@ -10,6 +10,11 @@ if(CMAKE_Fortran_COMPILER_ID MATCHES GNU)
   # set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -fprofile-arcs -ftest-coverage")
 endif()
 
+if(CMAKE_Fortran_COMPILER_ID MATCHES Intel)
+  set(CMAKE_BUILD_TYPE "RelWithDebInfo")
+  set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -qopt-report -qopt-report-phase=vec")
+endif()
+
 # demonstrate passing a compiler directive; used in sqrt.f90
 set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -Dcmake_flag")
 
