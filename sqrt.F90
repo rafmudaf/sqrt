@@ -12,21 +12,31 @@ real(8) :: input
 real(8) :: x0 = 10
 integer :: iterations = 10
 logical(1) :: printIts = .TRUE.
-integer :: i
-integer, parameter :: n = 1024
-real(8), dimension(n) :: m1, m2, result
+integer :: i, j
+real :: t1, t2
+integer, parameter :: n = 4096
+real(8), dimension(n, n) :: m1, m2, result
 
 do i=1,n
-  m1(i) = i
-  m2(i) = 0.1 * i
+  do j=1,n
+    m1(i, j) = i
+    m2(i, j) = 0.1 * i
+  end do
 end do
 
-call matrixmultiply_vectorized(n, m1, m2, result)
-
-do i=1, n
-  ! "(A,I5,A,F10.4)"
-  print "(F12.4)", result(i)
+call cpu_time ( t1 )
+do i=1,100000
+  call matrixmultiply_vectorized(n, m1, m2, result)
 end do
+call cpu_time ( t2 )
+write ( *, * ) 'matrixmultiple CPU time = ', t2 - t1
+
+! do i=1,n
+!   do j=1,n
+!     ! "(A,I5,A,F10.4)"
+!     print "(F12.4)", result(i, j)
+!   end do
+! end do
 
 call getarg(1, arg)
 read(arg,*) input
