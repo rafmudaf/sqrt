@@ -12,14 +12,21 @@ real(8) :: input
 real(8) :: x0 = 10
 integer :: iterations = 10
 logical(1) :: printIts = .TRUE.
-real(8) :: result
+integer :: i
+integer, parameter :: n = 1024
+real(8), dimension(n) :: m1, m2, result
 
-! read the input argument and convert to real
-nargs = command_argument_count()
-if (nargs.ne.1) then
-  print *, "Usage: sqrt N where N is a real number"
-  stop 1
-endif
+do i=1,n
+  m1(i) = i
+  m2(i) = 0.1 * i
+end do
+
+call matrixmultiply_vectorized(n, m1, m2, result)
+
+do i=1, n
+  ! "(A,I5,A,F10.4)"
+  print "(F12.4)", result(i)
+end do
 
 call getarg(1, arg)
 read(arg,*) input

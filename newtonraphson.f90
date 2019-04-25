@@ -6,6 +6,7 @@ implicit none
 
 private :: isInteger
 public :: nr_sqrt, int_2x, int_sq, isEven
+public :: matrixmultiply_vectorized
 
 contains
 
@@ -26,10 +27,22 @@ real(c_double) function randn()
   randn = r
 end function
 
+subroutine matrixmultiply_vectorized(n, m1, m2, mout) bind(c, name='matrixmultiply_vectorized')
+  integer(c_int), intent(in) :: n
+  real(c_double), dimension(n), intent(in) :: m1, m2
+  real(c_double), dimension(n), intent(out) :: mout
+  integer :: i
+
+  do i=1, n
+    mout(i) = m1(i) * m2(i)
+  end do
+end subroutine
+
 real(c_double) function nr_sqrt(n, x0, iterations, printIts) bind(c, name='nr_sqrt')
   real(c_double), intent(in) :: n, x0
   integer(c_int), intent(in) :: iterations
   logical(c_bool), intent(in) :: printIts
+
   integer :: i
   real(c_double) :: xm1
 
