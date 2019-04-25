@@ -17,19 +17,43 @@ real :: t1, t2
 integer, parameter :: n = 4096
 real(8), dimension(n, n) :: m1, m2, result
 
+! not vectorized
+call cpu_time ( t1 )
 do i=1,n
   do j=1,n
     m1(i, j) = i
     m2(i, j) = 0.1 * i
   end do
 end do
+call cpu_time ( t2 )
+write ( *, * ) 'NOT VECTORIZED: fill array CPU time = ', t2 - t1
 
 call cpu_time ( t1 )
 do i=1,100000
   call matrixmultiply_vectorized(n, m1, m2, result)
 end do
 call cpu_time ( t2 )
-write ( *, * ) 'matrixmultiple CPU time = ', t2 - t1
+write ( *, * ) 'NOT VECTORIZED: matrixmultiple CPU time = ', t2 - t1
+
+
+! vectorized
+! call cpu_time ( t1 )
+! do i=1,n
+!   do j=1,n
+!     m1(i, j) = i
+!     m2(i, j) = 0.1 * i
+!   end do
+! end do
+! call cpu_time ( t2 )
+! write ( *, * ) 'NOT VECTORIZED: fill array CPU time = ', t2 - t1
+
+! call cpu_time ( t1 )
+! do i=1,100000
+!   call matrixmultiply_vectorized(n, m1, m2, result)
+! end do
+! call cpu_time ( t2 )
+! write ( *, * ) 'NOT VECTORIZED: matrixmultiple CPU time = ', t2 - t1
+
 
 ! do i=1,n
 !   do j=1,n
