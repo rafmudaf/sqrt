@@ -13,12 +13,11 @@ ExternalProject_Add(pfunit
   BINARY_DIR ${PROJECT_BINARY_DIR}/pfunit-build
   STAMP_DIR ${PROJECT_BINARY_DIR}/pfunit-stamp
   TMP_DIR ${PROJECT_BINARY_DIR}/pfunit-tmp
-  INSTALL_DIR ${PFUNIT_INSTALL}
+  INSTALL_DIR ${PROJECT_BINARY_DIR}/pFUnit
   CMAKE_ARGS ${ExternalProjectCMakeArgs}
 )
 
-set(PFUNIT_INSTALL ${PROJECT_BINARY_DIR}/pFUnit)
-set(pfunit_directory ${PFUNIT_INSTALL})
+set(pfunit_directory ${PROJECT_BINARY_DIR}/pfunit)
 set(source_testdirectory ${PROJECT_SOURCE_DIR}/tests)
 set(build_testdirectory ${PROJECT_BINARY_DIR}/tests)
 
@@ -26,6 +25,7 @@ file(MAKE_DIRECTORY ${build_testdirectory})
 file(WRITE ${build_testdirectory}/testSuites.inc "")
 
 include_directories(
+  ${PROJECT_BINARY_DIR}/..
   ${PROJECT_SOURCE_DIR}
   ${build_testdirectory}
   ${pfunit_directory}/mod
@@ -34,10 +34,10 @@ include_directories(
 # unit tests
 set(test_sources)
 foreach(test test_int_2x test_int_sq test_nr_sqrt test_isEven)
-  set(test_dependency ${source_testdirectory}/${test}.F90)
+  set(test_dependency pfunit ${source_testdirectory}/${test}.F90)
   add_custom_command(
     OUTPUT ${build_testdirectory}/${test}.F90
-    COMMAND python ${pfunit_directory}/bin/pFUnitParser.py ${source_testdirectory}/${test}.F90 ${build_testdirectory}/${test}.F90
+    COMMAND python ${PROJECT_SOURCE_DIR}/pfunit/bin/pFUnitParser.py ${source_testdirectory}/${test}.F90 ${build_testdirectory}/${test}.F90
     DEPENDS ${test_dependency}
   )
 
@@ -55,7 +55,7 @@ add_executable(
 target_link_libraries(
   newtonraphson_utest
   ${pfunit_directory}/lib/libpfunit.a
-  newtonraphson
+  newtonraphson_fortran
 )
 
 enable_testing()
