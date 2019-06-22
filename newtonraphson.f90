@@ -9,10 +9,10 @@ public :: nr_sqrt, int_2x, int_sq, isEven
 
 contains
 
-real function randn()
+real(c_double) function randn()
   integer :: n
   integer, allocatable :: seed(:)
-  real :: r
+  real(c_double) :: r
   
   ! call random_seed(size = seedsize)
   call random_seed(size = n)
@@ -25,13 +25,13 @@ real function randn()
   write (*,*) r
   randn = r
 end function
-  
-real( c_float ) function nr_sqrt(n, x0, iterations, printIts) bind(c)
-  real( c_float ), intent(in) :: n, x0
-  integer( c_int ), intent(in) :: iterations
-  logical( c_bool ), intent(in) :: printIts
+
+real(c_double) function nr_sqrt(n, x0, iterations, printIts) bind(c, name='nr_sqrt')
+  real(c_double), intent(in) :: n, x0
+  integer(c_int), intent(in) :: iterations
+  logical(c_bool), intent(in) :: printIts
   integer :: i
-  real( c_float ) :: xm1
+  real(c_double) :: xm1
 
   do i = 1, iterations
     if (i == 1) then
@@ -55,13 +55,13 @@ real( c_float ) function nr_sqrt(n, x0, iterations, printIts) bind(c)
   return
 end function
 
-integer(c_int) function int_2x(n) bind(c)
-  integer(c_int), intent(in) :: n
+integer(c_int) function int_2x(n) bind(c, name='int_2x')
+  integer(c_int), value, intent(in) :: n
   int_2x = ishft(n, 1)
 end function
 
-recursive integer function int_sq(n) result(sq)
-  integer, intent(in) :: n
+recursive integer(c_int) function int_sq(n) bind(c, name='int_sq') result(sq)
+  integer(c_int), value, intent(in) :: n
   integer :: x
 
   if (n.eq.0) then
@@ -82,7 +82,7 @@ logical function isEven(n)
 end function
 
 logical function isInteger(n)
-  real, intent(in) :: n
+  real(c_double), intent(in) :: n
   isInteger = mod(n,1.0) == 0
 end function
 

@@ -8,11 +8,11 @@ character(len=5) :: arg
 integer :: nargs
 
 ! arguments for the fortran routines
-real :: input
-real :: x0 = 10
+real(8) :: input
+real(8) :: x0 = 10
 integer :: iterations = 10
 logical(1) :: printIts = .TRUE.
-real :: result
+real(8) :: result
 
 ! read the input argument and convert to real
 nargs = command_argument_count()
