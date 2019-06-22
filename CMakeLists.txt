@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.6)
-project(sqrt VERSION 0.1 LANGUAGES Fortran CXX)
+project(sqrt VERSION 0.2 LANGUAGES Fortran CXX)
 
 if(CMAKE_SYSTEM_NAME MATCHES Darwin)
   set(CMAKE_MACOSX_RPATH 1)
