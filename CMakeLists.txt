@@ -5,13 +5,15 @@ if(CMAKE_SYSTEM_NAME MATCHES Darwin)
   set(CMAKE_MACOSX_RPATH 1)
 endif()
 
+# Sets the optimization level to -O2 and includes -g 
+set(CMAKE_BUILD_TYPE "RelWithDebInfo")
+
 if(CMAKE_Fortran_COMPILER_ID MATCHES GNU)
   set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -g")
-  # set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -fprofile-arcs -ftest-coverage")
+  set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -fprofile-arcs -ftest-coverage")
 endif()
 
 if(CMAKE_Fortran_COMPILER_ID MATCHES Intel)
-  set(CMAKE_BUILD_TYPE "RelWithDebInfo")
   set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -qopt-report -qopt-report-phase=vec")
 endif()
 

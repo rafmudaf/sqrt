@@ -29,7 +29,7 @@ call cpu_time ( t2 )
 write ( *, * ) 'NOT VECTORIZED: fill array CPU time = ', t2 - t1
 
 call cpu_time ( t1 )
-do i=1,100000
+do i=1,1000000
   call matrixmultiply_vectorized(n, m1, m2, result)
 end do
 call cpu_time ( t2 )
