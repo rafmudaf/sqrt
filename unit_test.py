@@ -2,7 +2,15 @@
 import numpy as np
 from ctypes import CDLL, POINTER, c_int, c_double
 
-newtonraphsonlib = CDLL('./build/libnewtonraphson_fortran.dylib')
+try:
+    newtonraphsonlib = CDLL('./build/libnewtonraphson_fortran.so')
+except:
+    pass
+
+try:
+    newtonraphsonlib = CDLL('./build/libnewtonraphson_fortran.dylib')
+except:
+    pass
 
 def test_int_2x():
     desired = 8
