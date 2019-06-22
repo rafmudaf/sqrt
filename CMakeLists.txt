@@ -25,7 +25,7 @@ add_library(newtonraphson_fortran SHARED ${CMAKE_CURRENT_LIST_DIR}/newtonraphson
 add_library(newtonraphson_c SHARED ${CMAKE_CURRENT_LIST_DIR}/newtonraphson.cpp)
 
 # configure the sqrt programs
-add_executable(sqrt_fortran ${CMAKE_CURRENT_LIST_DIR}/sqrt.F90)
+add_executable(sqrt_fortran ${CMAKE_CURRENT_LIST_DIR}/sqrt.F90 ${CMAKE_CURRENT_LIST_DIR}/sqrt_types.F90)
 target_link_libraries(sqrt_fortran newtonraphson_fortran)
 
 add_executable(sqrt_c ${CMAKE_CURRENT_LIST_DIR}/sqrt.cpp)

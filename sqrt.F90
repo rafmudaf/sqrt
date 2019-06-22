@@ -1,6 +1,7 @@
 program sqrt
 
 use newtonraphson
+use sqrt_types
 use, intrinsic :: iso_c_binding
 implicit none
 
@@ -17,43 +18,56 @@ real :: t1, t2
 integer, parameter :: n = 4096
 real(8), dimension(n, n) :: m1, m2, result
 
+type(ControlData) :: control_data
+
+call InitValues(control_data)
+
 ! not vectorized
+write ( *, * ) 'NOT VECTORIZED:'
 call cpu_time ( t1 )
-do i=1,n
-  do j=1,n
+do i=1,control_data%array_size
+  do j=1,control_data%array_size
     m1(i, j) = i
     m2(i, j) = 0.1 * i
   end do
 end do
 call cpu_time ( t2 )
-write ( *, * ) 'NOT VECTORIZED: fill array CPU time = ', t2 - t1
+write ( *, * ) '    fill array CPU time = ', t2 - t1
 
 call cpu_time ( t1 )
-do i=1,1000000
+do i=1,control_data%max_iterations
   call matrixmultiply_vectorized(n, m1, m2, result)
 end do
 call cpu_time ( t2 )
-write ( *, * ) 'NOT VECTORIZED: matrixmultiple CPU time = ', t2 - t1
+write ( *, * ) '    matrixmultiple CPU time = ', t2 - t1
 
 
 ! vectorized
+! write ( *, * ) 'VECTORIZED:'
 ! call cpu_time ( t1 )
-! do i=1,n
-!   do j=1,n
+! do i=1,control_data%array_size
+!   do j=1,control_data%array_size
 !     m1(i, j) = i
 !     m2(i, j) = 0.1 * i
 !   end do
 ! end do
 ! call cpu_time ( t2 )
-! write ( *, * ) 'NOT VECTORIZED: fill array CPU time = ', t2 - t1
+! write ( *, * ) '    fill array CPU time = ', t2 - t1
 
 ! call cpu_time ( t1 )
-! do i=1,100000
-!   call matrixmultiply_vectorized(n, m1, m2, result)
+! do i=1,control_data%array_size
+!   do j=1,control_data%array_size
+!     result(i, j) = m1(i, j) * m2(i, j)
+!   end do
 ! end do
+! ! do i=1,control_data%max_iterations
+! !   ! call matrixmultiply_vectorized(n, m1, m2, result)
+! !   do j=1, n
+! !     result(j, j) = m1(j, j) * m2(j, j)
+! !   end do
+! ! end do
 ! call cpu_time ( t2 )
-! write ( *, * ) 'NOT VECTORIZED: matrixmultiple CPU time = ', t2 - t1
-
+! write ( *, * ) '    matrixmultiple CPU time = ', t2 - t1
 
 ! do i=1,n
 !   do j=1,n
@@ -62,13 +76,13 @@ write ( *, * ) 'NOT VECTORIZED: matrixmultiple CPU time = ', t2 - t1
 !   end do
 ! end do
 
-call getarg(1, arg)
-read(arg,*) input
+! call getarg(1, arg)
+! read(arg,*) input
 
-! get the square root from newton raphson method
-result = nr_sqrt(input, x0, iterations, printIts)
+! ! get the square root from newton raphson method
+! result = nr_sqrt(input, x0, iterations, printIts)
 
-! display the results
-print "(3A,F10.4)", "The square root of ",trim(arg)," is ",result
+! ! display the results
+! print "(3A,F10.4)", "The square root of ",trim(arg)," is ",result
 
 end program
