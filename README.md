@@ -7,9 +7,11 @@ Methods demonstrated here:
 
 - [Compiler directives with CMake](#compiler-directives-with-cmake)
 - [Unit testing with pFUnit](#unit-testing-with-pfunit)
-- Debugging
+- [Unit testing with Python](#unit-testing-with-python)
+- [Debugging](#debugging)
 - [Linking Fortran and C](#linking-fortran-and-c)
 - [Continuous integration with TravisCI](#continuous-integration-with-travisci)
+- [Continuous integration with GitHub Actions](#continuous-integration-with-github-actions)
 
 ### Compiler directives with CMake
 
@@ -40,7 +42,37 @@ development in Fortran it is convenient to stay in Fortran to write the unit tes
 However, I have found it to be limiting in scope and a bit of a heavy lift for the functionality that you get. A better approach
 may be to use compile the Fortran project as a shared library and drive the unit tests with a Python framework.
 
+### Unit testing with Python
+
+As mentioned in the section above, pFUnit is a bit of a heavy lift for simple unit testing. So, I wanted to try linking a Fortran
+library to Python since I already have the C bindings exposed.
+
+This whole process is pretty straightforward using the `ctypes` library. As long as the Fortran library is compiled correctly
+with C bindings, you can simply link and use it in Python like this:
+
+```Python
+from ctypes import CDLL
+import numpy as np
+
+newtonraphsonlib = CDLL('./build/libnewtonraphson_fortran.dylib')
+np.testing.assert_almost_equal(
+  newtonraphsonlib.int_2x(4),
+  8
+)
+```
+
 ### Debugging
+
+Debugging Fortran on mac can be tricky as `gdb` isn't well supported. Intel provides `gdb-ia` which improves support but
+works best with the Intel. In any case, I've added some compiler flags to the CMake configuration to enable debugging
+```CMake
+if(CMAKE_Fortran_COMPILER_ID MATCHES GNU)
+  set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -g")
+  # set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -fprofile-arcs -ftest-coverage")
+endif()
+```
+
+This is an area open to future work.
 
 ### Linking Fortran and C
 
@@ -113,3 +145,38 @@ print *, "after c out: ", out
 Continuous integration is configured here with [TravisCI](https://travis-ci.org/rafmudaf/sqrt). It is currently configured to run
 on a macOS 10.12 (High Sierra) image with GCC version 7. The continuous integration system compiles the main program, compiles the unit
 tests, and runs the unit tests.
+
+### Continuous integration with GitHub Actions
+
+TravisCI is free and well supported, but it does have its downsides. Namely, the build process can take some time
+to get started, long builds and tests time out, and the underlying images dont seem to be completely stable. When
+GitHub announced an alternative with [GitHub Actions](https://github.com/features/actions), I was pretty excited at the
+possibility of incorporating testing alongside the code repository.
+
+To demo this feature, I build a Dockerfile and configured a GitHub workflow:
+
+```
+workflow "New workflow" {
+  on = "push"
+  resolves = ["sqrt.pytest"]
+}
+
+action "sqrt.build" {
+  uses = "actions/docker/cli@master"
+  args = "build -t sqrt-$GITHUB_SHA:latest ."
+}
+
+action "sqrt.pytest" {
+  uses = "actions/docker/cli@master"
+  needs = ["sqrt.build"]
+  args = "run sqrt-$GITHUB_SHA:latest pytest"
+}
+```
+
+This entire workflow builds on the standard Ubuntu Docker image, but the power here is that you can
+start from a prebuilt Docker image so that recompiling and running tests can be made more effective
+and efficient with your own custom environment. You can start with a Docker image from your latest release
+and only rebuild what has changed.
+
+Finally, with this close integration to GitHub, you can easily create new releases any time you merge
+into `master`.
