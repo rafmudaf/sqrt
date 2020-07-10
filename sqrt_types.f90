@@ -54,12 +54,13 @@ subroutine f2c(f_data, c_data)
 
     type(array_container), intent(in) :: f_data
     type(array_container_c), intent(out) :: c_data
-    real, target, allocatable :: temporary_array(:)
 
-    allocate( temporary_array( size(f_data%array) ) )
-    temporary_array = f_data%array
+    real, dimension(:), pointer :: array_pointer
 
-    c_data%array = c_loc(temporary_array)
+    allocate( array_pointer( size(f_data%array) ) )
+    array_pointer = f_data%array
+
+    c_data%array = c_loc(array_pointer)
     c_data%array_len = size(f_data%array)
 
 end subroutine
