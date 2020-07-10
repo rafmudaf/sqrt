@@ -14,7 +14,7 @@ endif()
 set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -Dcmake_flag")
 
 # configure the newton-raphson module libraries
-add_library(newtonraphson_fortran SHARED ${CMAKE_CURRENT_LIST_DIR}/newtonraphson.f90)
+add_library(newtonraphson_fortran SHARED ${CMAKE_CURRENT_LIST_DIR}/newtonraphson.f90 ${CMAKE_CURRENT_LIST_DIR}/sqrt_types.f90)
 add_library(newtonraphson_c SHARED ${CMAKE_CURRENT_LIST_DIR}/newtonraphson.cpp)
 
 # configure the sqrt programs

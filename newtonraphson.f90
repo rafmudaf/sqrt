@@ -1,6 +1,7 @@
 module newtonraphson
 
 use iso_c_binding
+use sqrt_types
 
 implicit none
 
@@ -85,5 +86,25 @@ logical function isInteger(n)
   real(c_double), intent(in) :: n
   isInteger = mod(n,1.0) == 0
 end function
+
+subroutine array_passing(input_data, output_data) bind(c, name="array_passing")
+
+  type(array_container_c), intent(in) :: input_data
+  type(array_container_c), intent(out) :: output_data
+  type(array_container) :: fortran_internal_data
+
+  ! Check that all required values are present in input
+  ! TODO
+
+  ! Convert the data from C to Fortran
+  call c2f(input_data, fortran_internal_data)
+
+  ! Do some math
+  fortran_internal_data%array = fortran_internal_data%array * 10.0
+
+  ! Convert the data back to C
+  call f2c(fortran_internal_data, output_data)
+
+end subroutine
 
 end module
