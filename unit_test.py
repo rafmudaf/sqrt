@@ -31,6 +31,12 @@ class array_container(Structure):
         ('array_len', c_int)
     ]
 
+    def __str__(self):
+        string = f"{self.array_len} - "
+        for i in range(self.array_len):
+            string += "{:<8.2f}".format(self.array[i])
+        return string
+
 
 class array2d_container(Structure):
     # _pack_ = True # source:False
@@ -71,10 +77,7 @@ if __name__ == "__main__":
     )
     print(f"Returned with response code: {return_code}")
 
-    print(array_out.array_len)
-    for i in range(n_outputs):
-        print(f"{i}: {array_out.array[i]}")
-
+    print(array_out)
 
     # Nested arrays - array of arrays
     array_temp1 = array_container(
@@ -99,7 +102,5 @@ if __name__ == "__main__":
     )
     print(f"Returned with response code: {return_code}")
 
-    print(array_out.array_len)
-    for j in range(2):
-        for i in range(n_outputs):
-            print(f"{i}: {array_out.array[j].array[i]}")
+    for i in range(array_out.array_len):
+        print(array_out.array[i])
