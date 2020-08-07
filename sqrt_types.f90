@@ -59,7 +59,6 @@ subroutine c2f_2d(c_data, f_data)
     type(array2d_container_c), intent(in) :: c_data
     type(array2d_container), intent(out) :: f_data
     type(array_container_c), dimension(:), pointer :: temporary_pointer
-    real, dimension(:), pointer :: temporary_pointer2
     integer :: i
 
     ! Outer C-pointer to F-pointer
@@ -72,22 +71,9 @@ subroutine c2f_2d(c_data, f_data)
     )
 
     ! Inner C-pointer to F-pointer
-    allocate(f_data%array(1)%array( temporary_pointer(1)%array_len ) )
-    call c_f_pointer(                     &
-        temporary_pointer(1)%array,       &
-        temporary_pointer2,               &
-        [temporary_pointer(1)%array_len]  &
-    )
-    f_data%array(1)%array = temporary_pointer2
-
-    allocate(f_data%array(2)%array( temporary_pointer(2)%array_len ) )
-    call c_f_pointer(                     &
-        temporary_pointer(2)%array,       &
-        temporary_pointer2,               &
-        [temporary_pointer(2)%array_len]  &
-    )
-    f_data%array(2)%array = temporary_pointer2
-
+    do i = 1, c_data%array_len
+        call c2f_1d(temporary_pointer(i), f_data%array(i))
+    end do
 end subroutine
 
 subroutine f2c_1d(f_data, c_data)
@@ -109,22 +95,15 @@ subroutine f2c_2d(f_data, c_data)
     type(array2d_container), intent(in) :: f_data
     type(array2d_container_c), intent(out) :: c_data
     type(array_container_c), dimension(:), pointer :: temporary_pointer
-    real, dimension(:), pointer :: temporary_pointer2
-
     integer :: i
 
-    allocate( temporary_pointer(2) )
-    do i = 1,2
-
-        allocate( temporary_pointer2( size(f_data%array(i)%array) ) )
-        temporary_pointer2 = f_data%array(i)%array
-    
-        temporary_pointer(i)%array = c_loc(temporary_pointer2)
-        temporary_pointer(i)%array_len = size(f_data%array(i)%array)
+    allocate( temporary_pointer( size(f_data%array) ) )
+    do i = 1, size(f_data%array)
+        call f2c_1d(f_data%array(i), temporary_pointer(i))
     end do
 
     c_data%array = c_loc(temporary_pointer)
-    c_data%array_len = 2
+    c_data%array_len = size(f_data%array)
 
 end subroutine
 
