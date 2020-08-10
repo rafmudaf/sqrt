@@ -28,6 +28,16 @@ type array2d_container
     type(array_container), dimension(:), allocatable :: array
 end type
 
+interface c2f
+module procedure c2f_1d
+module procedure c2f_2d
+end interface
+
+interface f2c
+module procedure f2c_1d
+module procedure f2c_2d
+end interface
+
 contains
 
 subroutine c2f_1d(c_data, f_data)
