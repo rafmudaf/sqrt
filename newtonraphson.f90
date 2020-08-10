@@ -97,13 +97,13 @@ subroutine array_passing(input_data, output_data) bind(c, name="array_passing")
   ! TODO
 
   ! Convert the data from C to Fortran
-  call c2f_1d(input_data, fortran_internal_data)
+  call c2f(input_data, fortran_internal_data)
 
   ! Do some math
   fortran_internal_data%array = fortran_internal_data%array * 10.0
 
   ! Convert the data back to C
-  call f2c_1d(fortran_internal_data, output_data)
+  call f2c(fortran_internal_data, output_data)
 
 end subroutine
 
@@ -117,14 +117,14 @@ subroutine array_passing2d(input_data, output_data) bind(c, name="array_passing2
   ! TODO
 
   ! Convert the data from C to Fortran
-  call c2f_2d(input_data, fortran_internal_data)
+  call c2f(input_data, fortran_internal_data)
 
   ! ! Do some math
   fortran_internal_data%array(1)%array = fortran_internal_data%array(1)%array * 10.0
   fortran_internal_data%array(2)%array = fortran_internal_data%array(2)%array * 100.0
 
   ! ! Convert the data back to C
-  call f2c_2d(fortran_internal_data, output_data)
+  call f2c(fortran_internal_data, output_data)
 
 end subroutine
 
