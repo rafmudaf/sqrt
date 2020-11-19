@@ -41,7 +41,7 @@ include_directories(
 
 # unit tests
 set(test_sources)
-foreach(test test_int_2x test_int_sq test_nr_sqrt test_isEven)
+foreach(test test_newtonraphson)
   set(test_dependency pfunit ${source_testdirectory}/${test}.F90)
   add_custom_command(
     OUTPUT ${build_testdirectory}/${test}.F90
