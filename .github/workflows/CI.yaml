@@ -1,0 +1,48 @@
+  
+name: 'Development Pipeline'
+
+on:
+  push:
+    paths-ignore:
+      - 'docs/**'
+      - '**.md'
+
+env:
+  FORTRAN_COMPILER: gfortran-10
+  NUM_PROCS: 8
+
+# runs-on: ${{ matrix.os }}
+# strategy:
+#   matrix:
+#     os: [macOS-10.14, ubuntu-18.04]
+
+jobs:
+  unit-test:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.7'
+      - name: Checkout
+        uses: actions/checkout@main
+        with:
+          submodules: recursive
+      - name: Setup
+        run: cmake -E make_directory ${{runner.workspace}}/build
+      - name: Configure
+        working-directory: ${{runner.workspace}}/build
+        run: |
+          cmake \
+            -DCMAKE_INSTALL_PREFIX:PATH=${{runner.workspace}}/install \
+            -DCMAKE_Fortran_COMPILER:STRING=${{env.FORTRAN_COMPILER}} \
+            -DCMAKE_BUILD_TYPE:STRING=RelWithDebInfo \
+            -DBUILD_TESTING:BOOL=ON \
+            ${GITHUB_WORKSPACE}
+      - name: Build
+        working-directory: ${{runner.workspace}}/build
+        run: cmake --build . --target all -- -j ${{env.NUM_PROCS}}
+      - name: Test
+        working-directory: ${{runner.workspace}}/build
+        run: |
+          ./sqrt_fortran 4
