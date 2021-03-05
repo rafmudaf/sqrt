@@ -5,6 +5,7 @@ project(sqrt_utest LANGUAGES Fortran)
 include(ExternalProject)
 set(ExternalProjectCMakeArgs
   -DCMAKE_INSTALL_PREFIX=${PROJECT_BINARY_DIR}/pfunit
+  -DCMAKE_Fortran_COMPILER=${CMAKE_Fortran_COMPILER}
   -DROBUST=OFF
 )
 set(PFUNIT_INSTALL ${PROJECT_BINARY_DIR}/pfunit)
@@ -13,7 +14,7 @@ ExternalProject_Add(pfunit
   BINARY_DIR ${PROJECT_BINARY_DIR}/pfunit-build
   STAMP_DIR ${PROJECT_BINARY_DIR}/pfunit-stamp
   TMP_DIR ${PROJECT_BINARY_DIR}/pfunit-tmp
-  INSTALL_DIR ${PROJECT_BINARY_DIR}/pFUnit
+  INSTALL_DIR ${PFUNIT_INSTALL}
   CMAKE_ARGS ${ExternalProjectCMakeArgs}
 )
 
