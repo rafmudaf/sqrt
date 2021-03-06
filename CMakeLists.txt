@@ -11,6 +11,12 @@ if(CMAKE_Fortran_COMPILER_ID MATCHES GNU)
 endif()
 
 # demonstrate passing a compiler directive; used in sqrt.f90
+option(CODECOV "Enable code coverage analysis." OFF)
+if(CODECOV)
+  # --coverage
+  set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -fprofile-arcs -ftest-coverage")
+endif()
+
 set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -Dcmake_flag")
 
 # configure the newton-raphson module libraries

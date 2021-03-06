@@ -38,11 +38,21 @@ jobs:
             -DCMAKE_Fortran_COMPILER:STRING=${{env.FORTRAN_COMPILER}} \
             -DCMAKE_BUILD_TYPE:STRING=RelWithDebInfo \
             -DBUILD_TESTING:BOOL=ON \
+            -DCODECOV=ON \
             ${GITHUB_WORKSPACE}
       - name: Build
         working-directory: ${{runner.workspace}}/build
-        run: cmake --build . --target all -- -j ${{env.NUM_PROCS}}
+        run: cmake --build . --target newtonraphson_utest -- -j ${{env.NUM_PROCS}}
       - name: Test
         working-directory: ${{runner.workspace}}/build
         run: |
           ./sqrt_fortran 4
+      - name: Codecov
+        uses: codecov/codecov-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
+          # files: ./coverage1.xml,./coverage2.xml # optional
+          # flags: unittests # optional
+          # name: codecov-umbrella # optional
+          fail_ci_if_error: true # optional (default = false)
+          verbose: true # optional (default = false)
