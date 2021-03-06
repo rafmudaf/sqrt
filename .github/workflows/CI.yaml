@@ -29,20 +29,39 @@ jobs:
         with:
           submodules: recursive
       - name: Setup
-        run: cmake -E make_directory ${{runner.workspace}}/build
+        run: cmake -E make_directory ${{runner.workspace}}/sqrt/build
       - name: Configure
-        working-directory: ${{runner.workspace}}/build
+        working-directory: ${{runner.workspace}}/sqrt/build
         run: |
           cmake \
-            -DCMAKE_INSTALL_PREFIX:PATH=${{runner.workspace}}/install \
             -DCMAKE_Fortran_COMPILER:STRING=${{env.FORTRAN_COMPILER}} \
             -DCMAKE_BUILD_TYPE:STRING=RelWithDebInfo \
             -DBUILD_TESTING:BOOL=ON \
+            -DCODECOV=ON \
             ${GITHUB_WORKSPACE}
       - name: Build
-        working-directory: ${{runner.workspace}}/build
-        run: cmake --build . --target all -- -j ${{env.NUM_PROCS}}
+        working-directory: ${{runner.workspace}}/sqrt/build
+        run: cmake --build . --target newtonraphson_utest -- -j ${{env.NUM_PROCS}}
       - name: Test
-        working-directory: ${{runner.workspace}}/build
+        working-directory: ${{runner.workspace}}/sqrt
         run: |
-          ./sqrt_fortran 4
+          ./build/unit_test/newtonraphson_utest
+      - name: Generate coverage report
+        working-directory: ${{runner.workspace}}/sqrt
+        run: |
+          # pip install gcovr
+          # cp `find . -name *.gcno` .
+          # cp `find . -name *.gcda` .
+          # gcov -b -l -p -c *.gcno
+          # cd ..
+          # gcovr -g -k -r . --xml -o sqrt_coverage.xml --verbose
+          bash <(curl -s https://codecov.io/bash)
+      # - name: Upload coverage report to Codecov
+      #   uses: codecov/codecov-action@v1
+      #   with:
+      #     # token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
+      #     files: ${{runner.workspace}}/sqrt_coverage.xml #,./coverage2.xml # optional
+      #     # flags: unittests # optional
+      #     # name: codecov-umbrella # optional
+      #     fail_ci_if_error: true # optional (default = false)
+      #     verbose: true # optional (default = false)

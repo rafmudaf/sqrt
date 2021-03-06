@@ -10,6 +10,27 @@ if(CMAKE_Fortran_COMPILER_ID MATCHES GNU)
   # set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -fprofile-arcs -ftest-coverage")
 endif()
 
+# Add the unit tests before adding the coverage flag
+# pFUnit fails to build with --coverage (actually its the drivers for the unit tests)
+option(BUILD_TESTING "Build the testing infrastructure." OFF)
+if(BUILD_TESTING)
+  add_subdirectory(unit_test)
+endif()
+
+option(CODECOV "Enable infrastructure for measuring code coverage." OFF)
+if(CODECOV)
+  # Only supports GNU
+  if(NOT CMAKE_Fortran_COMPILER_ID MATCHES GNU)
+    message(WARNING "CODECOV is only support with GNU Compilers. The current Fortran compiler is ${CMAKE_Fortran_COMPILER_ID}")
+  endif()
+  if(NOT CMAKE_CXX_COMPILER_ID MATCHES GNU)
+    message(WARNING "CODECOV is only support with GNU Compilers. The current C++ compiler is ${CMAKE_CXX_COMPILER_ID}")
+  endif()
+  
+  set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} --coverage")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --coverage")
+endif()
+
 # demonstrate passing a compiler directive; used in sqrt.f90
 set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -Dcmake_flag")
 
@@ -29,8 +50,3 @@ target_link_libraries(sqrt_c_fortran newtonraphson_fortran)
 
 add_executable(sqrt_fortran_c ${CMAKE_CURRENT_LIST_DIR}/sqrt_c.f90)
 target_link_libraries(sqrt_fortran_c newtonraphson_c)
-
-option(BUILD_TESTING "Build the testing infrastructure." OFF)
-if(BUILD_TESTING)
-  add_subdirectory(unit_test)
-endif()
