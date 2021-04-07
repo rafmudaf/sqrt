@@ -1,6 +1,13 @@
 cmake_minimum_required(VERSION 3.6)
 project(sqrt_utest LANGUAGES Fortran)
 
+if(NOT EXISTS ${PYTHON_EXECUTABLE})
+  find_program(PYTHON_EXECUTABLE NAMES python3 python py)
+  if(NOT EXISTS ${PYTHON_EXECUTABLE})
+    message(FATAL_ERROR "CMake cannot find a Python interpreter in your path. Python is required to run OpenFAST tests." )
+  endif()
+endif()
+
 # configure the testing framework, pFUnit
 include(ExternalProject)
 set(ExternalProjectCMakeArgs
