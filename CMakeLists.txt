@@ -10,13 +10,18 @@ if(CMAKE_Fortran_COMPILER_ID MATCHES GNU)
   # set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -fprofile-arcs -ftest-coverage")
 endif()
 
-# # demonstrate passing a compiler directive; used in sqrt.f90
-# option(CODECOV "Enable code coverage analysis." OFF)
-# if(CODECOV)
-#   # --coverage
-#   set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} --coverage")
-# endif()
+option(BUILD_TESTING "Build the testing infrastructure." OFF)
+if(BUILD_TESTING)
+  add_subdirectory(unit_test)
+endif()
 
+option(CODECOV "Enable infrastructure for measuring code coverage." OFF)
+if(CODECOV AND CMAKE_Fortran_COMPILER_ID MATCHES GNU)
+  # Only supports GNU
+  set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} --coverage")
+endif()
+
+# demonstrate passing a compiler directive; used in sqrt.f90
 set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -Dcmake_flag")
 
 # configure the newton-raphson module libraries
@@ -36,8 +41,4 @@ target_link_libraries(sqrt_c_fortran newtonraphson_fortran)
 add_executable(sqrt_fortran_c ${CMAKE_CURRENT_LIST_DIR}/sqrt_c.f90)
 target_link_libraries(sqrt_fortran_c newtonraphson_c)
 
-option(BUILD_TESTING "Build the testing infrastructure." OFF)
-if(BUILD_TESTING)
-  add_subdirectory(unit_test)
-endif()
 
