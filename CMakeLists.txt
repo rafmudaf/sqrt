@@ -1,9 +1,6 @@
 cmake_minimum_required(VERSION 3.6)
 project(sqrt VERSION 0.2 LANGUAGES Fortran CXX)
 
-set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
-include(CodeCoverage)
-
 if(CMAKE_SYSTEM_NAME MATCHES Darwin)
   set(CMAKE_MACOSX_RPATH 1)
 endif()
@@ -44,9 +41,3 @@ if(BUILD_TESTING)
   add_subdirectory(unit_test)
 endif()
 
-setup_target_for_coverage_gcovr_html(
-  NAME ctest_coverage
-  EXECUTABLE ctest -j ${PROCESSOR_COUNT}
-  DEPENDENCIES executable_target
-  BASE_DIRECTORY "../"                   # Base directory for report
-)
