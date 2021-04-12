@@ -3,6 +3,8 @@
 A basic square root calculation program written in Fortran which provides a basis for evaluating various software infrastructure tools
 and ideas.
 
+[![codecov](https://codecov.io/gh/rafmudaf/sqrt/branch/codecov/graph/badge.svg?token=0khnFELzQK)](https://codecov.io/gh/rafmudaf/sqrt)
+
 Methods demonstrated here:
 
 - [Compiler directives with CMake](#compiler-directives-with-cmake)
