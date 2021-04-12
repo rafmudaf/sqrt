@@ -16,9 +16,14 @@ if(BUILD_TESTING)
 endif()
 
 option(CODECOV "Enable infrastructure for measuring code coverage." OFF)
-if(CODECOV AND CMAKE_Fortran_COMPILER_ID MATCHES GNU)
+if(CODECOV)
   # Only supports GNU
-  set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} --coverage")
+  if(CMAKE_Fortran_COMPILER_ID MATCHES GNU)
+    set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} --coverage")
+  endif()
+  if(CMAKE_CXX_COMPILER_ID MATCHES GNU)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --coverage")
+  endif()
 endif()
 
 # demonstrate passing a compiler directive; used in sqrt.f90
