@@ -1,16 +1,19 @@
 
+import sys
 import numpy as np
 from ctypes import CDLL, POINTER, c_int, c_double
 
-try:
-    newtonraphsonlib = CDLL('./build/libnewtonraphson_fortran.so')
-except:
-    pass
+if sys.platform == "darwin":
+    library_extension = "dylib"
+elif sys.platform == "linux":
+    library_extension = "so"
+elif sys.platform == "win32":
+    library_extension = "dll"
+# elif sys.platform == "cygwin":
+# ??
+#     library_extension = "dll"
 
-try:
-    newtonraphsonlib = CDLL('./build/libnewtonraphson_fortran.dylib')
-except:
-    pass
+newtonraphsonlib = CDLL('./build/libnewtonraphson_fortran.{}'.format(library_extension))
 
 def test_int_2x():
     desired = 8
