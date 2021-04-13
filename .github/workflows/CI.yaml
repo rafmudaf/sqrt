@@ -61,19 +61,10 @@ jobs:
           # cd ..
           # gcovr -g -k -r . --xml -o sqrt_coverage.xml --verbose
           bash <(curl -s https://codecov.io/bash)
-      - name: Failing test artifacts
-        uses: actions/upload-artifact@v2
-        with:
-          name: coverage-reports
-          path: |
-            ${{runner.workspace}}
 
-      # - name: Upload coverage report to Codecov
-      #   uses: codecov/codecov-action@v1
+      # - name: Upload Workspace
+      #   uses: actions/upload-artifact@v2
       #   with:
-      #     # token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
-      #     files: ${{runner.workspace}}/sqrt_coverage.xml #,./coverage2.xml # optional
-      #     # flags: unittests # optional
-      #     # name: codecov-umbrella # optional
-      #     fail_ci_if_error: true # optional (default = false)
-      #     verbose: true # optional (default = false)
+      #     name: coverage-reports
+      #     path: |
+      #       ${{runner.workspace}}
