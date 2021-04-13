@@ -61,6 +61,13 @@ jobs:
           # cd ..
           # gcovr -g -k -r . --xml -o sqrt_coverage.xml --verbose
           bash <(curl -s https://codecov.io/bash)
+      - name: Failing test artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: coverage-reports
+          path: |
+            ${{runner.workspace}}
+
       # - name: Upload coverage report to Codecov
       #   uses: codecov/codecov-action@v1
       #   with:
