@@ -7,6 +7,7 @@ from ctypes import (
     c_int,
     c_float,
     c_double,
+    c_char_p,
     Structure,
     pointer,
     byref
@@ -50,7 +51,8 @@ if __name__ == "__main__":
 
     newtonraphsonlib.array_passing.argtypes = [
         POINTER(array_container),
-        POINTER(array_container)
+        POINTER(array_container),
+        c_char_p
     ]
     newtonraphsonlib.array_passing.restypes = c_int
 
@@ -73,7 +75,8 @@ if __name__ == "__main__":
     print("Calling Fortran library...")
     return_code = newtonraphsonlib.array_passing(
         byref(array_in),
-        byref(array_out)
+        byref(array_out),
+        c_char_p(b"abcd")
     )
     print(f"Returned with response code: {return_code}")
 

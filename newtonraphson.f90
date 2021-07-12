@@ -87,14 +87,17 @@ logical function isInteger(n)
   isInteger = mod(n,1.0) == 0
 end function
 
-subroutine array_passing(input_data, output_data) bind(c, name="array_passing")
+subroutine array_passing(input_data, output_data, string) bind(c, name="array_passing")
 
   type(array_container_c), intent(in) :: input_data
   type(array_container_c), intent(out) :: output_data
+  character(kind=c_char), intent(in) :: string(*)
   type(array_container) :: fortran_internal_data
 
   ! Check that all required values are present in input
   ! TODO
+
+  print *, "STRING: ", string(1:10)
 
   ! Convert the data from C to Fortran
   call c2f(input_data, fortran_internal_data)
