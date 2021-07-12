@@ -1,3 +1,0 @@
-[submodule "unit_test/pfunit"]
-	path = unit_test/pfunit
-	url = https://github.com/Goddard-Fortran-Ecosystem/pfunit.git

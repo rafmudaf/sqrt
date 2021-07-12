@@ -1,6 +1,6 @@
 module test_newtonraphson
 
-  use pFUnit_mod
+  use FUnit
   use newtonraphson
   use iso_c_binding
 

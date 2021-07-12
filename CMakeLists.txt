@@ -5,6 +5,11 @@ if(CMAKE_SYSTEM_NAME MATCHES Darwin)
   set(CMAKE_MACOSX_RPATH 1)
 endif()
 
+# Force all .mod files to be stored in a single directory
+set(CMAKE_Fortran_MODULE_DIRECTORY "${CMAKE_BINARY_DIR}/ftnmods"
+CACHE STRING "Set the Fortran Modules directory" FORCE)
+include_directories(${CMAKE_Fortran_MODULE_DIRECTORY})
+
 if(CMAKE_Fortran_COMPILER_ID MATCHES GNU)
   set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -g")
   # set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -fprofile-arcs -ftest-coverage")
