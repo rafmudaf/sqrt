@@ -11,7 +11,7 @@ if(CMAKE_Fortran_COMPILER_ID MATCHES GNU)
 endif()
 
 # demonstrate passing a compiler directive; used in sqrt.f90
-set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -Dcmake_flag")
+set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -Dcmake_flag -fc-prototypes")
 
 # configure the newton-raphson module libraries
 add_library(newtonraphson_fortran SHARED ${CMAKE_CURRENT_LIST_DIR}/newtonraphson.f90 ${CMAKE_CURRENT_LIST_DIR}/sqrt_types.f90)
